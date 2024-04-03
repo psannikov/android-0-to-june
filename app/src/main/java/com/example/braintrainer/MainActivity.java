@@ -88,12 +88,34 @@ public class MainActivity extends AppCompatActivity {
         textViewScore.setText(score);
     }
     private void generateQuestion() {
-        int a = (int) (Math.random()*(max - min + 1) + min);
-        int b = (int) (Math.random()*(max - min + 1) + min);
-        rightAnswer = a * b;
-        question = String.format("%s * %s", a, b);
-        textViewQuestion.setText(question);
+        int sign = generateSign();
+        int a = 0;
+        int b = 0;
+        boolean isWorked = true;
+        while (isWorked) {
+            a = (int) (Math.random()*(max - min + 1) + min);
+            b = (int) (Math.random()*(max - min + 1) + min);
+            if (sign == 0) {
+                isWorked = false;
+            } else {
+                if (a % b == 0) {
+                    isWorked = false;
+                }
+            }
+        }
+        if (sign == 0) {
+            rightAnswer = a * b;
+            question = String.format("%s * %s", a, b);
+            textViewQuestion.setText(question);
+        } else {
+            rightAnswer = a / b;
+            question = String.format("%s / %s", a, b);
+            textViewQuestion.setText(question);
+        }
         rightAnswerPosition = (int) (Math.random()*4);
+    }
+    private int generateSign() {
+        return (int) (Math.random()*2);
     }
     private int generateWrongAnswer() {
         int result;
